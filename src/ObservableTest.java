@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class ObservableTest {
     public static void main(String[] args) {
@@ -46,6 +48,39 @@ public class ObservableTest {
                      .transform( p -> new Person(p.getAge() + 30)))
                      .toMap(p -> p.geName(), p -> p);
         */
-        Observable observable = Observable.of(someCollection).filter(p -> p.getAge() > 20);
+        //Observable observable = Observable.of(someCollection).filter(p -> { return p.getAge() > 20; });
+
+        Observable observable = Observable.of(someCollection).filter(new Predicate<Person>() {
+            @Override
+            public boolean test(Person person) {
+                return person.getAge() > 10;
+            }
+        });/*.transform(new Function<Person, Person>() {
+            @Override
+            public Person apply(Person person) {
+                Person person1 = new Person(person.getPet());
+                person1.setAge(person.getAge() + 30);
+                return person1;
+            }
+        });*/
+
+        Map map = observable.toMap(new Function<Person, Person>() {
+            @Override
+            public Person apply(Person person) {
+                Person person1 = new Person(person.getPet());
+                person1.setFirstName(person.getFirstName());
+                return person1;
+
+            }
+        }, new Function<Person, Person>() {
+            @Override
+            public Person apply(Person person) {
+                return person;
+
+            }
+        });
+
+
+
     }
 }
