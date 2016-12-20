@@ -22,21 +22,19 @@ public class ObservableTest {
         cat.setAge(3);
         cat.setName("Garfield");
 
-        Person oldPerson = new Person(dog);
+        Person oldPerson = new Person();
         oldPerson.setAge(70);
         oldPerson.setFirstName("Alex");
         oldPerson.setLastName("Ivanov");
         oldPerson.setWeight(170);
         oldPerson.setHeight(70);
-        oldPerson.setPet(dog);
 
-        Person youngPerson = new Person(dog);
+        Person youngPerson = new Person();
         youngPerson.setAge(20);
         youngPerson.setFirstName("Ivan");
         youngPerson.setLastName("Aleksandrov");
         youngPerson.setWeight(160);
         youngPerson.setHeight(60);
-        youngPerson.setPet(dog);
 
 
         List<Person> someCollection = new ArrayList<>();
@@ -50,12 +48,12 @@ public class ObservableTest {
         */
         //Observable observable = Observable.of(someCollection).filter(p -> { return p.getAge() > 20; });
 
-        Observable observable = Observable.of(someCollection).filter(new Predicate<Person>() {
-            @Override
-            public boolean test(Person person) {
-                return person.getAge() > 10;
-            }
-        });/*.transform(new Function<Person, Person>() {
+        Map<String,Person> personMap = Observable.of(someCollection)
+                .filter(p -> { return p.getAge() > 20; })
+                .transform( p ->{ Person p1 =new Person(p); p1.setAge(p.getAge() + 30); return p1;})
+                .toMap(p -> p.getFirstName(), p -> p);
+
+        /*.transform(new Function<Person, Person>() {
             @Override
             public Person apply(Person person) {
                 Person person1 = new Person(person.getPet());
@@ -64,7 +62,7 @@ public class ObservableTest {
             }
         });*/
 
-        Map map = observable.toMap(new Function<Person, Person>() {
+        /*Map map = observable.toMap(new Function<Person, Person>() {
             @Override
             public Person apply(Person person) {
                 Person person1 = new Person(person.getPet());
@@ -79,6 +77,7 @@ public class ObservableTest {
 
             }
         });
+        */
 
 
 

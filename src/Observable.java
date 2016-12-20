@@ -9,13 +9,13 @@ public class Observable<T> {
 
     List<T> list = new LinkedList<>();
 
-    public static <T> Observable of(List<T> list) {
-        Observable<T> observable = new Observable<>();
+    public static <R> Observable<R> of(List<R> list) {
+        Observable<R> observable = new Observable<>();
         observable.list.addAll(list);
         return observable;
     }
 
-    public Observable filter(Predicate<? super T> predicate) {
+    public Observable<T> filter(Predicate<? super T> predicate) {
         for (T element : list) {
             if (!predicate.test(element)) {
                 list.remove(element);
@@ -24,7 +24,7 @@ public class Observable<T> {
         return this;
     }
 
-    public <R> Observable transform(Function<? super T, ? extends R> mapper
+    public <R> Observable<R> transform(Function<? super T, ? extends R> mapper
     ) {
         Observable<R> observable = new Observable<>();
         for (T element : list) {
@@ -33,7 +33,7 @@ public class Observable<T> {
         return observable;
     }
 
-    public <K, V> Map toMap(Function<? super T, ? extends K> mapperKey, Function<? super T, ? extends V> mapperValue) {
+    public <K, V> Map<K, V> toMap(Function<? super T, ? extends K> mapperKey, Function<? super T, ? extends V> mapperValue) {
         Map<K, V> map = new HashMap<>();
         for (T element : list) {
             K key = mapperKey.apply(element);

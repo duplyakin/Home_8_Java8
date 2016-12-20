@@ -1,16 +1,22 @@
 
 public class Person {
-    private String firstName;
-    private String lastName;
-    private int age;
-    private double weight;
-    private double  height;
-    private Pet pet;
+    private String firstName="";
+    private String lastName="";
+    private int age=0;
+    private double weight=0.0;
+    private double  height=0.0;
 
-    public Person(Pet pet) {
-        this.pet = pet;
+    public Person() {
+
     }
 
+    public Person(Person other) {
+        firstName=other.firstName;
+        lastName=other.lastName;
+        age=other.age;
+        weight=other.weight;
+        height=other.height;
+    }
     @Override
     public String toString() {
         return "Person{" +
@@ -19,7 +25,7 @@ public class Person {
                 ", age=" + age +
                 ", weight=" + weight +
                 ", height=" + height +
-                ", pet=" + pet +
+
                 '}';
     }
 
@@ -63,13 +69,7 @@ public class Person {
         this.height = height;
     }
 
-    public Pet getPet() {
-        return pet;
-    }
 
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
 }
 
 
